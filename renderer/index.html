@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1c1612" />
+    <title>Flash Cabine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,680&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Photomaton</p>
+          <h1>Flash Cabine</h1>
+        </div>
+        <p id="status-pill" class="status-pill" role="status">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="status-label">Objectif fermé</span>
+        </p>
+      </header>
+
+      <div class="layout">
+        <section class="viewfinder" aria-label="Viseur">
+          <div class="frame">
+            <div class="sprockets" aria-hidden="true"></div>
+            <div class="well">
+              <video id="video" playsinline muted autoplay aria-hidden="true"></video>
+              <div id="vignette" class="vignette" hidden></div>
+              <div id="grain" class="grain" hidden></div>
+              <div id="flash" class="flash" hidden></div>
+              <div id="countdown-ui" class="countdown" hidden>
+                <p id="pose-label" class="pose-label">Souriez</p>
+                <div class="ring-wrap">
+                  <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <circle cx="50" cy="50" r="44" class="ring-bg" />
+                    <circle id="ring" cx="50" cy="50" r="44" class="ring-fg" pathLength="100" />
+                  </svg>
+                  <span id="count-num">3</span>
+                </div>
+                <button type="button" id="btn-cancel" class="btn ghost">Annuler</button>
+              </div>
+              <div id="state-panel" class="state-panel">
+                <div id="state-icon" class="state-icon" aria-hidden="true">◎</div>
+                <h2 id="state-title">Objectif fermé</h2>
+                <p id="state-body">
+                  Ouvrez la cabine pour voir l’aperçu en direct. Rien n’est envoyé : les clichés
+                  restent sur cet appareil.
+                </p>
+                <button type="button" id="btn-open" class="btn primary">Autoriser la caméra</button>
+              </div>
+              <p id="live-badge" class="live-badge" hidden>Direct</p>
+            </div>
+            <div class="sprockets" aria-hidden="true"></div>
+          </div>
+          <p id="camera-hint" class="hint">Le viseur reprend ce que la caméra voit, filtres compris.</p>
+        </section>
+
+        <section class="controls" aria-label="Réglages">
+          <fieldset>
+            <legend>Prise</legend>
+            <div class="segmented">
+              <button type="button" data-mode="photo" class="chip active" aria-pressed="true">Un cliché</button>
+              <button type="button" data-mode="strip" class="chip" aria-pressed="false">Planche ×4</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Compte à rebours</legend>
+            <div class="segmented three">
+              <button type="button" data-delay="0" class="chip" aria-pressed="false">Direct</button>
+              <button type="button" data-delay="3" class="chip active" aria-pressed="true">3 s</button>
+              <button type="button" data-delay="5" class="chip" aria-pressed="false">5 s</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Filtre</legend>
+            <div id="filters" class="filters"></div>
+          </fieldset>
+
+          <div class="icon-row">
+            <button type="button" id="btn-mirror" class="icon-btn active" aria-pressed="true" title="Miroir">
+              Miroir
+            </button>
+            <button type="button" id="btn-sound" class="icon-btn active" aria-pressed="true" title="Son">
+              Son
+            </button>
+            <button type="button" id="btn-switch" class="icon-btn" disabled title="Changer de caméra">
+              Caméra
+            </button>
+          </div>
+
+          <div class="shutter-wrap">
+            <button type="button" id="btn-shutter" class="shutter" disabled aria-label="Déclencher">
+              <span></span>
+            </button>
+            <p id="notice" class="notice" role="status">
+              Le déclencheur s’allume une fois la caméra en direct.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <section class="gallery" aria-label="Ruban des prises récentes">
+        <div class="gallery-head">
+          <div>
+            <h2>Ruban</h2>
+            <p id="gallery-meta">Les prises récentes s’alignent ici.</p>
+          </div>
+          <button type="button" id="btn-clear" class="btn ghost" hidden>Vider</button>
+        </div>
+        <div id="strip" class="strip"></div>
+      </section>
+
+      <p class="footer">Les photos restent dans cette application. Téléchargez-les avant de vider le ruban.</p>
+    </main>
+
+    <dialog id="lightbox" class="lightbox">
+      <img id="lightbox-img" alt="" />
+      <div class="lightbox-actions">
+        <button type="button" id="btn-download" class="btn primary">Télécharger</button>
+        <button type="button" id="btn-delete" class="btn ghost">Retirer</button>
+        <button type="button" id="btn-close" class="btn ghost">Fermer</button>
+      </div>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
