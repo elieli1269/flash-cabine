@@ -1,0 +1,45 @@
+{
+  "name": "flash-cabine",
+  "productName": "Flash Cabine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Photomaton webcam — aperçu, filtres, compte à rebours et téléchargement.",
+  "author": "Flash Cabine",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "pack:win": "electron-builder --win portable nsis --x64"
+  },
+  "devDependencies": {
+    "electron": "44.9.0",
+    "electron-builder": "26.17.0"
+  },
+  "build": {
+    "appId": "me.flashcabine.app",
+    "productName": "Flash Cabine",
+    "asar": false,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "renderer/**/*"
+    ],
+    "win": {
+      "target": [
+        { "target": "portable", "arch": ["x64"] },
+        { "target": "nsis", "arch": ["x64"] }
+      ]
+    },
+    "portable": {
+      "artifactName": "FlashCabine-${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "FlashCabine-Setup-${version}.exe",
+      "shortcutName": "Flash Cabine"
+    }
+  }
+}
