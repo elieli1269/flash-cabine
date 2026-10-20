@@ -8,9 +8,15 @@
   "main": "main.cjs",
   "scripts": {
     "start": "electron .",
-    "pack:win": "electron-builder --win portable nsis --x64"
+    "pack:win": "electron-builder --win portable nsis --x64",
+    "cap:sync": "npx cap sync android",
+    "android:add": "npx cap add android",
+    "android:open": "npx cap open android"
   },
   "devDependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/core": "^7.2.0",
     "electron": "44.9.0",
     "electron-builder": "26.17.0"
   },

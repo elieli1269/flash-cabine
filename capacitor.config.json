@@ -1,0 +1,11 @@
+{
+  "appId": "me.flashcabine.app",
+  "appName": "Flash Cabine",
+  "webDir": "renderer",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
