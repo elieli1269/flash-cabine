@@ -2,7 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#1c1612" />
     <title>Flash Cabine</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,7 +16,7 @@
   <body>
     <main>
       <header>
-        <div>
+        <div class="brand">
           <p class="eyebrow">Photomaton</p>
           <h1>Flash Cabine</h1>
         </div>
@@ -50,8 +50,7 @@
                 <div id="state-icon" class="state-icon" aria-hidden="true">◎</div>
                 <h2 id="state-title">Objectif fermé</h2>
                 <p id="state-body">
-                  Ouvrez la cabine pour voir l’aperçu en direct. Rien n’est envoyé : les clichés
-                  restent sur cet appareil.
+                  Ouvrez la cabine pour voir l’aperçu. Les clichés restent sur cet appareil.
                 </p>
                 <button type="button" id="btn-open" class="btn primary">Autoriser la caméra</button>
               </div>
@@ -59,28 +58,37 @@
             </div>
             <div class="sprockets" aria-hidden="true"></div>
           </div>
-          <p id="camera-hint" class="hint">Le viseur reprend ce que la caméra voit, filtres compris.</p>
+          <p id="camera-hint" class="hint">Aperçu en direct, filtres compris.</p>
         </section>
 
         <section class="controls" aria-label="Réglages">
-          <fieldset>
-            <legend>Prise</legend>
-            <div class="segmented">
-              <button type="button" data-mode="photo" class="chip active" aria-pressed="true">Un cliché</button>
-              <button type="button" data-mode="strip" class="chip" aria-pressed="false">Planche ×4</button>
-            </div>
-          </fieldset>
+          <div class="row-compact">
+            <fieldset class="fs-mode">
+              <legend class="sr-only">Prise</legend>
+              <div class="segmented">
+                <button type="button" data-mode="photo" class="chip active" aria-pressed="true">Cliché</button>
+                <button type="button" data-mode="strip" class="chip" aria-pressed="false">×4</button>
+              </div>
+            </fieldset>
+            <fieldset class="fs-delay">
+              <legend class="sr-only">Compte à rebours</legend>
+              <div class="segmented three">
+                <button type="button" data-delay="0" class="chip" aria-pressed="false">0s</button>
+                <button type="button" data-delay="3" class="chip active" aria-pressed="true">3s</button>
+                <button type="button" data-delay="5" class="chip" aria-pressed="false">5s</button>
+              </div>
+            </fieldset>
+          </div>
 
-          <fieldset>
-            <legend>Compte à rebours</legend>
-            <div class="segmented three">
-              <button type="button" data-delay="0" class="chip" aria-pressed="false">Direct</button>
-              <button type="button" data-delay="3" class="chip active" aria-pressed="true">3 s</button>
-              <button type="button" data-delay="5" class="chip" aria-pressed="false">5 s</button>
-            </div>
-          </fieldset>
+          <!-- Déclencheur AU-DESSUS des filtres -->
+          <div class="shutter-wrap">
+            <button type="button" id="btn-shutter" class="shutter" disabled aria-label="Déclencher">
+              <span></span>
+            </button>
+            <p id="notice" class="notice" role="status">Caméra en direct pour déclencher</p>
+          </div>
 
-          <fieldset>
+          <fieldset class="fs-filters">
             <legend>Filtre</legend>
             <div id="filters" class="filters"></div>
           </fieldset>
@@ -96,30 +104,17 @@
               Caméra
             </button>
           </div>
-
-          <div class="shutter-wrap">
-            <button type="button" id="btn-shutter" class="shutter" disabled aria-label="Déclencher">
-              <span></span>
-            </button>
-            <p id="notice" class="notice" role="status">
-              Le déclencheur s’allume une fois la caméra en direct.
-            </p>
-          </div>
         </section>
       </div>
 
       <section class="gallery" aria-label="Ruban des prises récentes">
         <div class="gallery-head">
-          <div>
-            <h2>Ruban</h2>
-            <p id="gallery-meta">Les prises récentes s’alignent ici.</p>
-          </div>
-          <button type="button" id="btn-clear" class="btn ghost" hidden>Vider</button>
+          <h2>Ruban</h2>
+          <p id="gallery-meta" class="gallery-meta">Prises récentes</p>
+          <button type="button" id="btn-clear" class="btn ghost btn-clear" hidden>Vider</button>
         </div>
         <div id="strip" class="strip"></div>
       </section>
-
-      <p class="footer">Les photos restent dans cette application. Téléchargez-les avant de vider le ruban.</p>
     </main>
 
     <dialog id="lightbox" class="lightbox">
