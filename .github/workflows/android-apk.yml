@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
       - name: Dépendances
         run: npm install --no-audit --no-fund
@@ -50,13 +49,12 @@ jobs:
           MANIFEST="android/app/src/main/AndroidManifest.xml"
           if [ ! -f "$MANIFEST" ]; then
             echo "Manifest introuvable"
-            ls -la android/app/src/main/ || true
+            find android -name "AndroidManifest.xml" 2>/dev/null || true
             exit 1
           fi
           if grep -q 'android.permission.CAMERA' "$MANIFEST"; then
             echo "Permissions déjà présentes"
           else
-            # Insérer les permissions juste après la balise <manifest ...>
             PERMS='    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />\n    <uses-feature android:name="android.hardware.camera" android:required="false" />\n    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />'
             awk -v perms="$PERMS" '
               /<manifest / && !done {
