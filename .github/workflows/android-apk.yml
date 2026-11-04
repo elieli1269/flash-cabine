@@ -13,6 +13,8 @@ jobs:
   apk:
     name: Construire l'APK
     runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
@@ -31,13 +33,25 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Configurer Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accepter licences Android
+      - name: Licences Android SDK
         run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" || true
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls -la "$ANDROID_HOME" || true
+          mkdir -p "$ANDROID_HOME/licenses"
+          printf '%s\n' \
+            "24333f8a63b6825ea9c5514f83c2829b004d1fee" \
+            > "$ANDROID_HOME/licenses/android-sdk-license"
+          printf '%s\n' \
+            "84831b9409646f7c1e2c1f1b1b1b1b1b" \
+            > "$ANDROID_HOME/licenses/android-sdk-preview-license" || true
+          # cmdline-tools path varie selon l'image
+          SM=$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f 2>/dev/null | head -n1)
+          if [ -n "$SM" ]; then
+            yes | "$SM" --licenses >/dev/null 2>&1 || true
+            "$SM" "platform-tools" "platforms;android-34" "build-tools;34.0.0" || true
+          else
+            echo "sdkmanager introuvable, on continue avec le SDK de l'image"
+          fi
 
       - name: Ajouter la plateforme Android
         run: |
